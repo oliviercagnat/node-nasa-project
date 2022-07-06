@@ -1,19 +1,31 @@
 const http = require('http');
 
 const app = require('./app');
-// We create the app object that we will pass in createServer
-// Any middleware attached to app will respond to request coming from the server
-// express is a listener function for our node http server. 
 
+// We call the planetsModel first, so we can load our planets first.
+const { loadPlanetData } = require('./models/planets.model');
 
 const PORT = process.env.PORT || 8000;
 
+// Create server and log the Port
 const server = http.createServer(app);
 
-// Create server and log the Port
-server.listen(PORT, () => {
+// We await so our planetData is available for any request coming to our server.
+// But we can't call await at the top level of a file.
+// Needs to be inside of an async function. So let's create one.
+// Here we wait for our loadPlanetData to resolve before starting the server.listen.
+async function startServer() {
+    await loadPlanetData();
+
+    server.listen(PORT, () => {
     console.log(`Listening on Port: ${PORT}...`);
-});
+    });
+}
+// We don't have to await our function, because nothing happens after we start our server.
+// No code below waiting.
+startServer();
+
+
 
 // With this setup, we can separate the server function from our express code that we put 
 // in app.js 

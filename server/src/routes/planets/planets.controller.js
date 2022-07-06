@@ -1,4 +1,4 @@
-const planets = require('../../models/planets.model');
+const { planets } = require('../../models/planets.model');
 
 // This status code is optional since express returns it by default.
 // But it's always better to return some responses.
@@ -12,5 +12,5 @@ function getAllPlanets(req, res) {
 }
 
 module.exports = {
-    getAllPlanets
+    getAllPlanets,
 };

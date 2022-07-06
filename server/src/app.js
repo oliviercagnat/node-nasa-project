@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const planetsRouter = require('./routes/planets/planets.router');
 
@@ -14,7 +15,18 @@ const planetsRouter = require('./routes/planets/planets.router');
 // Now we separated all express middleware from server function to organize our code better
 // Structure we can use for any scale of node application going forward.
 const app = express();
+
+// cors node.js package for providing a Connect/Express middleware that can be used 
+// to enable CORS (Cross-origin resource sharing)
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
+
+// We build ths chain of middleware that handle requests that come to our App.
+// They get checked with some Json content type if we are parsing some data.
+// Then go through our express router which handles first all of these planets Routes.
 app.use(express.json());
+app.use(planetsRouter);
 
 module.exports = app;
 

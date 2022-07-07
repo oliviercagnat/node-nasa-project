@@ -1,12 +1,10 @@
 // We setup our endpoints like in planetsRouter.
 // We need to access the express framework to use its express router
-// 
-
 const express = require('express');
-
 const {
-    httpGetAllLaunches,
-    httpAddNewLaunch
+  httpGetAllLaunches,
+  httpAddNewLaunch,
+  httpAbortLaunch,
 } = require('./launches.controller');
 
 const launchesRouter = express.Router();
@@ -15,5 +13,8 @@ const launchesRouter = express.Router();
 launchesRouter.get('/', httpGetAllLaunches);
 // Here post route
 launchesRouter.post('/', httpAddNewLaunch);
+
+launchesRouter.delete('/:id', httpAbortLaunch);
+
 // We can now use it in app.js
 module.exports = launchesRouter;

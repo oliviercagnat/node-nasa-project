@@ -2,6 +2,7 @@
 // const { launches } = require('../../models/launches.model');
 const { getAllLaunches,
     addNewLaunch,
+    existsLaunchWithId,
  } = require('../../models/launches.model');
 
 // we set the resposne to get the 200 status code.
@@ -45,7 +46,27 @@ function httpAddNewLaunch(req, res) {
     return res.status(201).json(launch);
 }
 
+function httpAbortLaunch(req, res) {
+    // Check the ID in the params
+    // Need to convert the string ID into a Number.
+    const launchId = Number(req.params.id);
+    
+    // if launch doesn't exist
+    if (!existsLaunchWithId(launchId)) {
+        return res.status(404).json({
+            error: 'Launch not found',
+        });
+    }
+
+    // if has not been aborted
+    const aborted = abortLaunchById(launchId);
+
+    // return when exist and could be aborted
+    return res.status(200).json(aborted);
+}
+
 module.exports = {
-    httpGetAllLaunches,
-    httpAddNewLaunch
+  httpGetAllLaunches,
+  httpAddNewLaunch,
+  httpAbortLaunch,
 };

@@ -21,6 +21,10 @@ const launch = {
 // We can access them with get.
 launches.set(launches.flightNumber, launch);
 
+function existsLaunchWithId(launchId) {
+    return launches.has(launchId);
+  }
+
 // Here the function return the format we needed (an array) we don't do it longer in our controller.
 function getAllLaunches() {
     return Array.from(launches.values());
@@ -42,10 +46,22 @@ function addNewLaunch(launch) {
             upcoming: true,
             customers: ['ZTM', 'NASA'],
             flightNumber: latestFlightNumber,
-    }));
+        })
+    );
+}
+
+// We need to keep the data, so we don't delete it, just turn it to false.
+function abortLaunchById(launchId) {
+    const aborted = launch.get(launchId);
+    aborted.upcoming = false;
+    aborted.success = false;
+    return aborted;
 }
 
 module.exports = {
+    existsLaunchWithId,
     getAllLaunches,
+    addNewLaunch,
+    abortLaunchById,
 }
 

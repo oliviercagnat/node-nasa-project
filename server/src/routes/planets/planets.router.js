@@ -5,7 +5,7 @@
 const express = require('express');
 
 const {
-    getAllPlanets
+    httpGetAllPlanets,
 } = require('./planets.controller');
 
 const planetsRouter = express.Router();
@@ -16,9 +16,7 @@ const planetsRouter = express.Router();
 // Here we will keep our controllers next to our routers.
 // Here the router makes direct use of the controller.
 // Don't wanna move around to far to get the code.
-planetsRouter.get('/planets', getAllPlanets);
-
-module.exports = {
-    planetsRouter
-};
+planetsRouter.get('/', httpGetAllPlanets);
+ 
+module.exports = planetsRouter;
 
